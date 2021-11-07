@@ -2,7 +2,6 @@ import axios from 'axios';
 import type registerDto from 'src/interfaces/registerDto.interface';
 
 const baseUrl = import.meta.env.VITE_BASEURL || process.env.VITE_BASEURL;
-console.log(baseUrl);
 
 export const createUser = (registerDto: registerDto) => {
 	return axios({
@@ -13,7 +12,6 @@ export const createUser = (registerDto: registerDto) => {
 	})
 		.then((res) => {
 			console.log(res);
-			return res;
 		})
 		.catch((error) => {
 			console.error(error);

@@ -4,11 +4,12 @@
 	import type registerDto from 'src/interfaces/registerDto.interface';
 	import { createUser } from '../services/api.service';
 
-	let registerDto: registerDto = { email: '', password: '', confirmedPassword: '' };
+	let registerDto: registerDto = { email: '', password: '', passwordConfirmation: '' };
+	// let registerDto: createUserSchema = { email: '', password: '', passwrodConfirmation: '' };
 
 	const register = () => {
 		createUser(registerDto);
-		registerDto = { email: '', password: '', confirmedPassword: '' };
+		registerDto = { email: '', password: '', passwordConfirmation: '' };
 	};
 </script>
 
@@ -40,7 +41,7 @@
 					<Field
 						id="confirmedPassword"
 						type="password"
-						bind:value={registerDto.confirmedPassword}
+						bind:value={registerDto.passwordConfirmation}
 						placeholder="Confirmer votre mot de passe"
 					/>
 				</form-control>
