@@ -1,6 +1,6 @@
 <!-- src/routes/__layout.svelte -->
 <script>
-	import '../../static/reset.css';
+	import '../../static/styles/main.scss';
 </script>
 
 <nav>
