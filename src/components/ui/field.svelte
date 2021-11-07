@@ -18,7 +18,7 @@
 	@import '../static/styles/variables.scss';
 
 	.field {
-		margin: 2rem 0;
+		margin: 2rem 0 0 0;
 		input {
 			height: 3rem;
 			width: 100%;

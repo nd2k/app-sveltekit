@@ -1,15 +1,18 @@
 <script lang="ts">
 	import Field from '../components/ui/field.svelte';
 	import Button from '../components/ui/button.svelte';
-	import type registerDto from 'src/interfaces/registerDto.interface';
 	import { createUser } from '../services/api.service';
+	import type { RegisterUserInput } from '../interfaces/user.schema';
+	import { createUserSchema } from '../interfaces/user.schema';
+	import { formValidator } from '../helpers/formValidator.helper';
 
-	let registerDto: registerDto = { email: '', password: '', passwordConfirmation: '' };
-	// let registerDto: createUserSchema = { email: '', password: '', passwrodConfirmation: '' };
+	let registerUserInput: RegisterUserInput = { email: '', password: '', passwordConfirmation: '' };
+	$: validationErrors = null;
 
 	const register = () => {
-		createUser(registerDto);
-		registerDto = { email: '', password: '', passwordConfirmation: '' };
+		validationErrors = formValidator(createUserSchema)(registerUserInput);
+		createUser(registerUserInput);
+		registerUserInput = { email: '', password: '', passwordConfirmation: '' };
 	};
 </script>
 
@@ -29,23 +32,40 @@
 					<Field
 						id="email"
 						type="text"
-						bind:value={registerDto.email}
+						bind:value={registerUserInput.email}
 						placeholder="Votre addresse email"
 					/>
+					<div class="error-message">
+						{#if validationErrors != null && validationErrors.email}
+							{validationErrors.email[0]}
+						{/if}
+					</div>
 					<Field
 						id="password"
 						type="password"
-						bind:value={registerDto.password}
+						bind:value={registerUserInput.password}
 						placeholder="Votre mot de passe"
 					/>
+					<div class="error-message">
+						{#if validationErrors != null && validationErrors.password}
+							{validationErrors.password[0]}
+						{/if}
+					</div>
 					<Field
 						id="confirmedPassword"
 						type="password"
-						bind:value={registerDto.passwordConfirmation}
+						bind:value={registerUserInput.passwordConfirmation}
 						placeholder="Confirmer votre mot de passe"
 					/>
+					<div class="error-message">
+						{#if validationErrors != null && validationErrors.passwordConfirmation}
+							{validationErrors.passwordConfirmation[0]}
+						{/if}
+					</div>
 				</form-control>
-				<Button size="large">Créer votre compte</Button>
+				<div class="button">
+					<Button size="large">Créer votre compte</Button>
+				</div>
 			</form>
 		</div>
 	</div>
@@ -87,6 +107,17 @@
 			.content {
 				text-align: center;
 				width: 70%;
+				.error-message {
+					color: red;
+					text-align: left;
+					font-size: 0.8rem;
+					margin: 0;
+					padding: 0;
+					font-style: italic;
+				}
+				.button {
+					margin-top: 2rem;
+				}
 			}
 		}
 	}

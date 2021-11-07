@@ -1,17 +1,20 @@
-import { object, string } from 'zod';
+import { z } from 'zod';
 
-export default const createUserSchema = object({
-    email: string({
-      required_error: 'Email is a mandatory field.',
-    }).email('Email field must be a valid email.'),
-    password: string({
-      required_error: 'Password is a mandatory field.',
-    }).min(6, 'The password field must at least contain 4 characters.'),
-    passwordConfirmation: string({
-      required_error: 'Password confirmation is a mandatory field.',
-    })
-  .refine((data) => data.password === data.passwordConfirmation, {
-    message: 'Passwords do not match.',
-    path: ['passwordConfirmation'],
-  }),
-});
+export const createUserSchema = z
+	.object({
+		email: z
+			.string()
+			.nonempty('Votre email est obligatoire.')
+			.email('Votre email doit être valide.'),
+		password: z
+			.string()
+			.nonempty('Votre mot de passe est obligatoire.')
+			.min(6, 'Votre mot de passe doit au moins contenir 6 caractères.'),
+		passwordConfirmation: z.string().nonempty('Vous devez confirmer votre mot de passe.')
+	})
+	.refine((data) => data.password === data.passwordConfirmation, {
+		message: 'Les mots de passe ne sont pas identiques',
+		path: ['passwordConfirmation']
+	});
+
+export type RegisterUserInput = z.infer<typeof createUserSchema>;

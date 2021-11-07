@@ -1,9 +1,18 @@
 <script lang="ts">
 	import Field from '../components/ui/field.svelte';
 	import Button from '../components/ui/button.svelte';
-	import type loginDto from 'src/interfaces/loginDto.interface';
+	import { createUserSchema } from '../interfaces/user.schema';
+	import type { RegisterUserInput } from '../interfaces/user.schema';
+	import { formValidator } from '../helpers/formValidator.helper';
 
-	let loginDto: loginDto = { email: '', password: '' };
+	let loginUserInput: RegisterUserInput = { email: '', password: '' };
+	$: validationErrors = null;
+
+	const login = () => {
+		validationErrors = formValidator(createUserSchema)(loginUserInput);
+		// createUser(registerUserInput);
+		loginUserInput = { email: '', password: '' };
+	};
 </script>
 
 <div class="login-form">
@@ -17,20 +26,30 @@
 	<div class="sign-in">
 		<div class="content">
 			<h1>Connectez-vous</h1>
-			<form class="form">
+			<form class="form" on:submit|preventDefault={login}>
 				<form-control>
 					<Field
 						id="email"
 						type="text"
-						bind:value={loginDto.email}
+						bind:value={loginUserInput.email}
 						placeholder="Votre addresse email"
 					/>
+					<div class="error-message">
+						{#if validationErrors != null && validationErrors.email}
+							{validationErrors.email[0]}
+						{/if}
+					</div>
 					<Field
 						id="password"
 						type="password"
-						bind:value={loginDto.password}
+						bind:value={loginUserInput.password}
 						placeholder="Votre mot de passe"
 					/>
+					<div class="error-message">
+						{#if validationErrors != null && validationErrors.password}
+							{validationErrors.password[0]}
+						{/if}
+					</div>
 				</form-control>
 				<div class="buttons">
 					<Button size="large">Connectez-vous</Button>
@@ -78,11 +97,20 @@
 				text-align: center;
 				width: 70%;
 				.form {
+					.error-message {
+						color: red;
+						text-align: left;
+						font-size: 0.8rem;
+						margin: 0;
+						padding: 0;
+						font-style: italic;
+					}
 					.buttons {
 						display: flex;
 						align-items: center;
 						justify-content: center;
 						flex-direction: column;
+						margin-top: 2rem;
 						.forget-password {
 							font-size: 0.7rem;
 							margin-top: 2rem;
