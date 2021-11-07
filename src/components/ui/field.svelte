@@ -19,14 +19,6 @@
 
 	.field {
 		margin: 2rem 0;
-		.primary-field {
-			background-color: $primary-color;
-			color: $text-secondary-color;
-		}
-		.secondary-field {
-			background-color: $secondary-color;
-			color: $text-primary-color;
-		}
 		input {
 			height: 3rem;
 			width: 100%;
@@ -34,10 +26,18 @@
 			outline: none;
 			font-size: $font-size-2;
 			border-radius: 20px;
-		}
-		input::placeholder {
-			color: $text-secondary-color;
-			opacity: 0.8;
+			&.primary-field {
+				background-color: $primary-color;
+				color: $text-secondary-color;
+			}
+			&.secondary-field {
+				background-color: $secondary-color;
+				color: $text-primary-color;
+			}
+			&::placeholder {
+				color: $text-secondary-color;
+				opacity: 0.8;
+			}
 		}
 	}
 </style>

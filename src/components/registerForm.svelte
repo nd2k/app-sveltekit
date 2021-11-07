@@ -2,11 +2,13 @@
 	import Field from '../components/ui/field.svelte';
 	import Button from '../components/ui/button.svelte';
 	import type registerDto from 'src/interfaces/registerDto.interface';
+	import { createUser } from '../services/api.service';
 
 	let registerDto: registerDto = { email: '', password: '', confirmedPassword: '' };
 
-	const register = (e: Event) => {
-		console.log(registerDto);
+	const register = () => {
+		createUser(registerDto);
+		registerDto = { email: '', password: '', confirmedPassword: '' };
 	};
 </script>
 
