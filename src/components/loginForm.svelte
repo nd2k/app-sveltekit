@@ -4,13 +4,14 @@
 	import { createUserSchema } from '../interfaces/user.schema';
 	import type { RegisterUserInput } from '../interfaces/user.schema';
 	import { formValidator } from '../helpers/formValidator.helper';
+	import { createSession } from '../services/api.service';
 
 	let loginUserInput: RegisterUserInput = { email: '', password: '' };
 	$: validationErrors = null;
 
 	const login = () => {
 		validationErrors = formValidator(createUserSchema)(loginUserInput);
-		// createUser(registerUserInput);
+		createSession(loginUserInput);
 		loginUserInput = { email: '', password: '' };
 	};
 </script>

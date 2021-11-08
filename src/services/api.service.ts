@@ -17,3 +17,18 @@ export const createUser = (registerUserInput: RegisterUserInput) => {
 			console.error(error);
 		});
 };
+
+export const createSession = (loginUserInput: RegisterUserInput) => {
+	return axios({
+		method: 'post',
+		url: baseUrl + '/sessions',
+		responseType: 'json',
+		data: loginUserInput
+	})
+		.then((res) => {
+			console.log(res);
+		})
+		.catch((error) => {
+			console.error(error);
+		});
+};
